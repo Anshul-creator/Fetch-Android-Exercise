@@ -1,5 +1,9 @@
-package com.example.fetchandroidexercise;
+package com.example.fetchandroidexercise.Model;
 
+/**
+ * Represents a header item that displays the group identifier
+ * A HeaderItem is used to indicate the start of a new group in the RecyclerView
+ */
 public class HeaderItem implements ListItem {
 
     private int listId;
