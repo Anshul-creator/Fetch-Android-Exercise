@@ -1,5 +1,6 @@
 package com.example.fetchandroidexercise;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +35,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             super(itemView);
             headerText = itemView.findViewById(android.R.id.text1);
+            headerText.setTypeface(headerText.getTypeface(), Typeface.BOLD);
+            headerText.setTextSize(20);
 
         }
         public void bind(HeaderItem headerItem) {
-            headerText.setText("List ID: " + headerItem.getListId());
+            String text = "List ID: " + headerItem.getListId();
+            headerText.setText(text);
         }
 
     }
@@ -49,14 +53,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             super(itemView);
             text1 = itemView.findViewById(android.R.id.text1);
-            text2 = itemView.findViewById(android.R.id.text2);
+            text1.setTypeface(text1.getTypeface(), Typeface.NORMAL);
 
         }
         public void bind(DataItem dataItem) {
 
             Item item = dataItem.getItem();
-            text1.setText("ID: " + item.getId());
-            text2.setText(item.getName());
+            String text = dataItem.getIndex() + ". " + item.getName();
+            text1.setText(text);
 
         }
 
