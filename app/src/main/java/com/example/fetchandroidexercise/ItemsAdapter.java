@@ -77,7 +77,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         else {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(android.R.layout.simple_list_item_2, parent, false);
+                    .inflate(android.R.layout.simple_list_item_1, parent, false);
             return new DataViewHolder(view);
         }
 

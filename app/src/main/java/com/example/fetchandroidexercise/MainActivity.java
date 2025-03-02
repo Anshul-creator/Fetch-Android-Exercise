@@ -3,6 +3,9 @@ package com.example.fetchandroidexercise;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private ItemsAdapter adapter;
     private List<ListItem> listItems;
 
+    private List<ListItem> completeListItems;
+    private int currentPage = 0;
+    private final int PAGE_SIZE = 50;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -31,6 +38,30 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         fetchData();
+
+        Button btnPrevious = findViewById(R.id.btnPrevious);
+        Button btnNext = findViewById(R.id.btnNext);
+
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentPage > 0) {
+                    currentPage--;
+                    loadPage(currentPage);
+                }
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int totalPages = (int) Math.ceil((double) completeListItems.size() / PAGE_SIZE);
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                    loadPage(currentPage);
+                }
+            }
+        });
 
     }
 
@@ -100,13 +131,28 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter = new ItemsAdapter(listItems);
-                recyclerView.setAdapter(adapter);
-            }
-        });
+        completeListItems = listItems;
+        loadPage(currentPage);
+
+    }
+
+    private void loadPage(final int page) {
+
+        int startIndex = page * PAGE_SIZE;
+        int endIndex = Math.min(startIndex + PAGE_SIZE, completeListItems.size());
+
+        if (startIndex < endIndex) {
+
+            final List<ListItem> pageItems = completeListItems.subList(startIndex, endIndex);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter = new ItemsAdapter(pageItems);
+                    recyclerView.setAdapter(adapter);
+                }
+            });
+
+        }
 
     }
 
